@@ -44,9 +44,8 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User savedUser = userRepository.save(user);
-
-        // ✅ clean response (don't return password)
         Map<String, Object> response = new HashMap<>();
+
         response.put("message", "User registered successfully");
         response.put("email", savedUser.getEmail());
         response.put("role", savedUser.getRole());
@@ -63,9 +62,11 @@ public class AuthController {
         User user = userRepository.findByEmail(dto.getEmail());
 
         Map<String, Object> response = new HashMap<>();
+
         response.put("token", token);
         response.put("email", user.getEmail());
         response.put("role", user.getRole());
+        response.put("userId", user.getId()); // 🔥 ADD THIS LINE
 
         return response;
     }
